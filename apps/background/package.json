@@ -1,0 +1,14 @@
+{
+  "name": "background",
+  "version": "1.0.0",
+  "description": "This is the background app for the chrome extension.",
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "background.js",
+  "scripts": {
+    "start": "tsc background.ts && node background.js",
+    "build": "tsc background.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
