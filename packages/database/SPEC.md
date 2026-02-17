@@ -16,4 +16,4 @@ interface Vocabulary {
 
 ## Operations
 
-It supports the CRUD operations of the Vocabulary interface.
+It supports the open (add if not existed) and CRUD operations of the Vocabulary interface.
