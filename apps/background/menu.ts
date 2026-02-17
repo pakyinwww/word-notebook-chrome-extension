@@ -1,4 +1,4 @@
-import { getConfig } from "@/shared/config";
+import { getConfig, saveVocab } from "@/packages/shared/store";
 
 export const createMenu = () => {
     chrome.contextMenus.create({

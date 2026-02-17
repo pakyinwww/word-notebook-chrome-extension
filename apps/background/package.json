@@ -7,8 +7,13 @@
   "type": "commonjs",
   "main": "background.js",
   "scripts": {
-    "start": "tsc background.ts && node background.js",
-    "build": "tsc background.ts",
+    "start": "tsc && node background.js",
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3",
+    "@types/chrome": "^0.0.258",
+    "@types/node": "^20.11.0"
   }
 }
