@@ -6,7 +6,7 @@ export interface Config {
     firstTime: boolean;
 }
 
-const defaultConfig: Config = {
+export const defaultConfig: Config = {
     llm: 'perplexity',
     language: 'en',
     newTab: true,

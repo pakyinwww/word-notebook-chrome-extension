@@ -23,6 +23,10 @@
                 "placeholder": "請選擇",
                 "yes": "是",
                 "no": "否"
+            },
+            "reset": {
+                "button": "恢復預設設定",
+                "confirm": "確定要將所有設定恢復為預設值嗎？"
             }
         },
         "welcome": {

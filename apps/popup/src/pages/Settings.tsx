@@ -1,11 +1,13 @@
-import { Container, Title, Select, Text } from '@mantine/core';
+import { Container, Title, Select, Button } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
-import { getConfig, setConfig } from '@repo/config';
+import { defaultConfig, getConfig, setConfig } from '@repo/config';
 import { useEffect, useState } from 'react';
 
 export function Settings() {
     const { t, i18n } = useTranslation();
+    const navigate = useNavigate();
     const [openInNewTab, setOpenInNewTab] = useState<string>('true');
 
     useEffect(() => {
@@ -27,6 +29,15 @@ export function Settings() {
         setOpenInNewTab(value || 'true');
         const config = await getConfig();
         await setConfig({ ...config, newTab: isNewTab });
+    };
+
+    const handleResetConfig = async () => {
+        const confirmed = window.confirm(t('app.settings.reset.confirm'));
+        if (!confirmed) return;
+
+        await setConfig(defaultConfig);
+        await i18n.changeLanguage(defaultConfig.language);
+        navigate('/');
     };
 
     return (
@@ -51,6 +62,15 @@ export function Settings() {
                 onChange={handleNewTabChange}
             />
 
+            <Button
+                mt="xl"
+                color="red"
+                variant="outline"
+                fullWidth
+                onClick={handleResetConfig}
+            >
+                {t('app.settings.reset.button')}
+            </Button>
         </Container>
     );
 }

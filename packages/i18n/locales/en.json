@@ -23,6 +23,10 @@
                 "placeholder": "Pick one",
                 "yes": "Yes",
                 "no": "No"
+            },
+            "reset": {
+                "button": "Reset to Default",
+                "confirm": "Are you sure you want to reset all settings to default?"
             }
         },
         "welcome": {
