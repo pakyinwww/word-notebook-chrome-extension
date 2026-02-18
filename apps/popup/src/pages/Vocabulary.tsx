@@ -1,7 +1,7 @@
 import { Table, ScrollArea, Pagination } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
 
-import { getAllVocabularies, Vocabulary as VocabularyType } from '@repo/database';
+import { getVocabulary, Vocabulary as VocabularyType } from '@repo/database';
 import { useEffect, useState } from 'react';
 
 export function Vocabulary() {
@@ -11,7 +11,7 @@ export function Vocabulary() {
     const itemsPerPage = 10;
 
     useEffect(() => {
-        getAllVocabularies().then(setVocabularies);
+        getVocabulary().then(setVocabularies);
     }, []);
 
     const totalPages = Math.ceil(vocabularies.length / itemsPerPage);

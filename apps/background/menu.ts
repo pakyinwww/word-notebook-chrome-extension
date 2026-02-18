@@ -1,5 +1,5 @@
 import { getConfig } from '@/packages/config';
-import { addVocabulary } from '@repo/database';
+import { addWord } from '@repo/database';
 import { v4 as uuidv4 } from 'uuid';
 
 export const createMenu = (title: string) => {
@@ -21,7 +21,7 @@ export const addMenuEventListeners = (i18n: any) => {
             const url = await new Promise<string>(resolve => chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => resolve(tabs[0] ? (tabs[0].url || '') : '')));
 
             if (text) {
-                await addVocabulary({
+                await addWord({
                     id: uuidv4(),
                     word: text,
                     url: url,

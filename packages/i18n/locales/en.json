@@ -2,7 +2,7 @@
     "from": "from",
     "to": "to",
     "app": {
-        "title": "Vocabulary Revision",
+        "title": "Word Notebook",
         "nav": {
             "vocabulary": "Vocabulary List",
             "settings": "Settings"

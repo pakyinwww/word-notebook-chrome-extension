@@ -7,9 +7,9 @@ export interface Vocabulary {
     updatedAt: Date;
 }
 
-const DB_NAME = 'vocabulary-revision';
+const DB_NAME = 'word-notebook';
 const DB_VERSION = 1;
-const STORE_NAME = 'vocabularies';
+const STORE_NAME = 'vocabulary';
 
 const openDB = (): Promise<IDBDatabase> => {
     return new Promise((resolve, reject) => {
@@ -33,7 +33,7 @@ const openDB = (): Promise<IDBDatabase> => {
     });
 };
 
-export const addVocabulary = async (vocabulary: Vocabulary): Promise<void> => {
+export const addWord = async (vocabulary: Vocabulary): Promise<void> => {
     const db = await openDB();
     return new Promise((resolve, reject) => {
         const transaction = db.transaction([STORE_NAME], 'readwrite');
@@ -45,7 +45,7 @@ export const addVocabulary = async (vocabulary: Vocabulary): Promise<void> => {
     });
 };
 
-export const getVocabulary = async (id: string): Promise<Vocabulary | undefined> => {
+export const getWord = async (id: string): Promise<Vocabulary | undefined> => {
     const db = await openDB();
     return new Promise((resolve, reject) => {
         const transaction = db.transaction([STORE_NAME], 'readonly');
@@ -57,7 +57,7 @@ export const getVocabulary = async (id: string): Promise<Vocabulary | undefined>
     });
 };
 
-export const getAllVocabularies = async (): Promise<Vocabulary[]> => {
+export const getVocabulary = async (): Promise<Vocabulary[]> => {
     const db = await openDB();
     return new Promise((resolve, reject) => {
         const transaction = db.transaction([STORE_NAME], 'readonly');
@@ -69,11 +69,11 @@ export const getAllVocabularies = async (): Promise<Vocabulary[]> => {
     });
 };
 
-export const updateVocabulary = async (vocabulary: Vocabulary): Promise<void> => {
-    return addVocabulary(vocabulary); // put handles both add and update
+export const updateWord = async (vocabulary: Vocabulary): Promise<void> => {
+    return addWord(vocabulary); // put handles both add and update
 };
 
-export const deleteVocabulary = async (id: string): Promise<void> => {
+export const deleteWord = async (id: string): Promise<void> => {
     const db = await openDB();
     return new Promise((resolve, reject) => {
         const transaction = db.transaction([STORE_NAME], 'readwrite');

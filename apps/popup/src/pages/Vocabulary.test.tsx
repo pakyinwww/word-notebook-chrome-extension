@@ -52,7 +52,7 @@ describe('Vocabulary page', () => {
     });
 
     it('renders an empty table when there are no vocabularies', async () => {
-        const { getAllVocabularies } = await import('@repo/database');
+        const { getVocabulary: getAllVocabularies } = await import('@repo/database');
         vi.mocked(getAllVocabularies).mockResolvedValueOnce([]);
 
         render(<Vocabulary />);
