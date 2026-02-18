@@ -40,6 +40,12 @@
                 "url": "Link",
                 "action": "Action",
                 "remove": "Remove"
+            },
+            "delete": {
+                "title": "Delete word",
+                "confirm_message": "Delete this word from your list?",
+                "cancel": "Cancel",
+                "confirm": "Delete"
             }
         },
         "common": {

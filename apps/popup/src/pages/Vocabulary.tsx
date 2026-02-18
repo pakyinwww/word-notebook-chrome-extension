@@ -1,4 +1,4 @@
-import { Table, ScrollArea, Pagination, Button, ActionIcon } from '@mantine/core';
+import { Table, ScrollArea, Pagination, Button, ActionIcon, Modal, Group, Text } from '@mantine/core';
 import { IconTrash } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
 
@@ -14,6 +14,8 @@ export function Vocabulary() {
     const [vocabularies, setVocabularies] = useState<VocabularyType[]>([]);
     const [activePage, setPage] = useState(1);
     const itemsPerPage = 10;
+    const [confirmOpen, setConfirmOpen] = useState(false);
+    const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null);
 
     const refresh = () => getVocabulary().then(setVocabularies);
 
@@ -27,9 +29,22 @@ export function Vocabulary() {
         activePage * itemsPerPage
     );
 
-    const handleRemove = async (id: string) => {
-        await deleteWord(id);
+    const handleRemove = (id: string) => {
+        setPendingDeleteId(id);
+        setConfirmOpen(true);
+    };
+
+    const handleConfirmDelete = async () => {
+        if (!pendingDeleteId) return;
+        await deleteWord(pendingDeleteId);
+        setConfirmOpen(false);
+        setPendingDeleteId(null);
         refresh();
+    };
+
+    const handleCancelDelete = () => {
+        setConfirmOpen(false);
+        setPendingDeleteId(null);
     };
 
     const rows = paginatedVocabularies.map((vocab) => (
@@ -60,6 +75,22 @@ export function Vocabulary() {
 
     return (
         <>
+            <Modal
+                opened={confirmOpen}
+                onClose={handleCancelDelete}
+                title={t('app.vocabulary.delete.title')}
+                centered
+            >
+                <Text mb="sm">{t('app.vocabulary.delete.confirm_message')}</Text>
+                <Group justify="flex-end">
+                    <Button variant="default" size="xs" onClick={handleCancelDelete}>
+                        {t('app.vocabulary.delete.cancel')}
+                    </Button>
+                    <Button color="red" size="xs" onClick={handleConfirmDelete}>
+                        {t('app.vocabulary.delete.confirm')}
+                    </Button>
+                </Group>
+            </Modal>
             <ScrollArea h={350} offsetScrollbars>
                 <Table>
                     <Table.Thead>

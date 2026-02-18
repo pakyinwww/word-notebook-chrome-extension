@@ -40,6 +40,12 @@
                 "url": "連結",
                 "action": "操作",
                 "remove": "刪除"
+            },
+            "delete": {
+                "title": "刪除單字",
+                "confirm_message": "確定要從列表中刪除此單字？",
+                "cancel": "取消",
+                "confirm": "刪除"
             }
         },
         "common": {
