@@ -10,9 +10,6 @@ export function Settings() {
 
     useEffect(() => {
         getConfig().then((config) => {
-            if (config.language && config.language !== i18n.language) {
-                i18n.changeLanguage(config.language);
-            }
             // Ensure config.newTab is a boolean, default to true if undefined
             setOpenInNewTab(config.newTab !== false ? 'true' : 'false');
         });
