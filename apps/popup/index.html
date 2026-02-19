@@ -1,13 +1,26 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Word Notebook</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <link rel="stylesheet" type="text/css" href="./index.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Word Notebook</title>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+<!-- Fix the bug when clicking the extension and nothing pops -->
+<!-- It is better to have inline css to show the empty popup before reacts boots up-->
+<style>
+  body {
+    width: 500px;
+    height: 400px;
+    margin: 0;
+  }
+</style>
+
 </html>
