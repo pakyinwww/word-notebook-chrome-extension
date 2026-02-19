@@ -1,18 +1,26 @@
-import { Container, Title, Select, Button } from '@mantine/core';
+import { Container, Title, Select, Button, Modal, Group, Text } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-import { defaultConfig, getConfig, setConfig } from '@repo/config';
+import { defaultConfig, getConfig, setConfig, LLMType } from '@repo/config';
 import { useEffect, useState } from 'react';
+
+const LLM_OPTIONS = [
+    { value: LLMType.perplexity, labelKey: 'app.settings.llm.name.perplexity' },
+    { value: LLMType.googleAI, labelKey: 'app.settings.llm.name.googleAI' },
+    { value: LLMType.google, labelKey: 'app.settings.llm.name.google' },
+] as const;
 
 export function Settings() {
     const { t, i18n } = useTranslation();
     const navigate = useNavigate();
+    const [llm, setLlm] = useState<string>(LLMType.perplexity);
     const [openInNewTab, setOpenInNewTab] = useState<string>('true');
+    const [resetModalOpen, setResetModalOpen] = useState(false);
 
     useEffect(() => {
         getConfig().then((config) => {
-            // Ensure config.newTab is a boolean, default to true if undefined
+            setLlm(config.llm ?? LLMType.perplexity);
             setOpenInNewTab(config.newTab !== false ? 'true' : 'false');
         });
     }, [i18n]);
@@ -24,6 +32,13 @@ export function Settings() {
         await setConfig({ ...config, language: lang });
     };
 
+    const handleLlmChange = async (value: string | null) => {
+        const next = (value as LLMType) || LLMType.perplexity;
+        setLlm(next);
+        const config = await getConfig();
+        await setConfig({ ...config, llm: next });
+    };
+
     const handleNewTabChange = async (value: string | null) => {
         const isNewTab = value === 'true';
         setOpenInNewTab(value || 'true');
@@ -31,14 +46,16 @@ export function Settings() {
         await setConfig({ ...config, newTab: isNewTab });
     };
 
-    const handleResetConfig = async () => {
-        const confirmed = window.confirm(t('app.settings.reset.confirm'));
-        if (!confirmed) return;
+    const handleResetClick = () => setResetModalOpen(true);
 
+    const handleResetConfirm = async () => {
         await setConfig(defaultConfig);
         await i18n.changeLanguage(defaultConfig.language);
+        setResetModalOpen(false);
         navigate('/');
     };
+
+    const handleResetCancel = () => setResetModalOpen(false);
 
     return (
         <Container>
@@ -52,6 +69,14 @@ export function Settings() {
             />
             <Select
                 mt="md"
+                label={t('app.settings.llm.label')}
+                placeholder={t('app.settings.llm.placeholder')}
+                data={LLM_OPTIONS.map((o) => ({ value: o.value, label: t(o.labelKey) }))}
+                value={llm}
+                onChange={handleLlmChange}
+            />
+            <Select
+                mt="md"
                 label={t('app.settings.new_tab.label')}
                 placeholder={t('app.settings.new_tab.placeholder')}
                 data={[
@@ -62,12 +87,29 @@ export function Settings() {
                 onChange={handleNewTabChange}
             />
 
+            <Modal
+                opened={resetModalOpen}
+                onClose={handleResetCancel}
+                title={t('app.settings.reset.title')}
+                centered
+            >
+                <Text mb="sm">{t('app.settings.reset.confirm')}</Text>
+                <Group justify="flex-end">
+                    <Button variant="default" size="xs" onClick={handleResetCancel}>
+                        {t('app.settings.reset.cancel')}
+                    </Button>
+                    <Button color="red" size="xs" onClick={handleResetConfirm}>
+                        {t('app.settings.reset.confirm_button')}
+                    </Button>
+                </Group>
+            </Modal>
+
             <Button
                 mt="xl"
                 color="red"
                 variant="outline"
                 fullWidth
-                onClick={handleResetConfig}
+                onClick={handleResetClick}
             >
                 {t('app.settings.reset.button')}
             </Button>

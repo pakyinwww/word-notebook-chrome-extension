@@ -18,6 +18,15 @@
                     "zh-HK": "Chinese (Traditional)"
                 }
             },
+            "llm": {
+                "label": "Lookup with",
+                "placeholder": "Pick one",
+                "name": {
+                    "perplexity": "Perplexity",
+                    "googleAI": "Google (AI overview)",
+                    "google": "Google"
+                }
+            },
             "new_tab": {
                 "label": "Open in New Tab after right click the highlighted text",
                 "placeholder": "Pick one",
@@ -26,7 +35,10 @@
             },
             "reset": {
                 "button": "Reset to Default",
-                "confirm": "Are you sure you want to reset all settings to default?"
+                "title": "Reset settings?",
+                "confirm": "Are you sure you want to reset all settings to default? After reset, the extension will be restored to the initial installation state",
+                "cancel": "Cancel",
+                "confirm_button": "Reset"
             }
         },
         "welcome": {
@@ -50,7 +62,9 @@
         },
         "common": {
             "menu": "Menu",
-            "context_menu": "Check \"%s\""
+            "context_menu_record": "Record \"%s\"",
+            "context_menu_lookup": "Record and lookup \"%s\"",
+            "prompt_lookup": "What is the meaning of {{word}} in english? Use it to write a short story also."
         },
         "to": "url"
     }
