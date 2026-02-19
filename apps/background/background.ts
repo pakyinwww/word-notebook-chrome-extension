@@ -12,6 +12,6 @@ const init = async () => {
 
 chrome.runtime.onInstalled.addListener(async (_reason) => {
     await init();
-    addMenuEventListeners(i18n);
 });
 
+addMenuEventListeners(i18n);
