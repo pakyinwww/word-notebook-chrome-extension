@@ -1,4 +1,4 @@
-import { Table, ScrollArea, Pagination, Button, ActionIcon, Modal, Group, Text, Title, TextInput, Stack } from '@mantine/core';
+import { Table, ScrollArea, Pagination, Button, ActionIcon, Modal, Group, Text, Title, TextInput, Stack, List } from '@mantine/core';
 import { IconTrash, IconSearch, IconPlus } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
 
@@ -233,9 +233,14 @@ export function Vocabulary() {
                             <Table.Tbody>{rows}</Table.Tbody>
                         ) :
                             <Table.Tbody><Table.Tr>
-                                <Table.Td colSpan={4} ta='center'>
-                                    <p><Title order={3}>{t('app.vocabulary.table.no_data')}</Title></p>
-                                    <p><Text>{t('app.vocabulary.table.no_data_hint')}</Text></p>
+                                <Table.Td colSpan={4}>
+                                    <Stack gap="sm" pt="md">
+                                        <Title order={3} ta="center">{t('app.vocabulary.table.no_data')}</Title>
+                                        <List type="ordered" spacing="xs">
+                                            <List.Item><Text size="sm">{t('app.vocabulary.table.no_data_hint1')}</Text></List.Item>
+                                            <List.Item><Text size="sm">{t('app.vocabulary.table.no_data_hint2')}</Text></List.Item>
+                                        </List>
+                                    </Stack>
                                 </Table.Td>
                             </Table.Tr></Table.Tbody>
                     }
