@@ -1,8 +1,8 @@
-import { Table, ScrollArea, Pagination, Button, ActionIcon, Modal, Group, Text, Title } from '@mantine/core';
-import { IconTrash, IconSearch } from '@tabler/icons-react';
+import { Table, ScrollArea, Pagination, Button, ActionIcon, Modal, Group, Text, Title, TextInput, Stack } from '@mantine/core';
+import { IconTrash, IconSearch, IconPlus } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
 
-import { getVocabulary, deleteWord, Vocabulary as VocabularyType } from '@repo/database';
+import { getVocabulary, deleteWord, addWord, Vocabulary as VocabularyType } from '@repo/database';
 import { useEffect, useState } from 'react';
 import { getConfig, llmLink, getLookupPrompt } from '@repo/config';
 
@@ -45,6 +45,9 @@ export function Vocabulary() {
     const itemsPerPage = 10;
     const [confirmOpen, setConfirmOpen] = useState(false);
     const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null);
+    const [addOpen, setAddOpen] = useState(false);
+    const [addWordValue, setAddWordValue] = useState('');
+    const [addUrlValue, setAddUrlValue] = useState('');
 
     const refresh = () => getVocabulary().then(setVocabulary);
 
@@ -84,6 +87,31 @@ export function Vocabulary() {
     const handleCancelDelete = () => {
         setConfirmOpen(false);
         setPendingDeleteId(null);
+    };
+
+    const handleOpenAdd = () => {
+        setAddWordValue('');
+        setAddUrlValue('');
+        setAddOpen(true);
+    };
+
+    const handleCloseAdd = () => {
+        setAddOpen(false);
+    };
+
+    const handleConfirmAdd = async () => {
+        const word = addWordValue.trim();
+        const url = addUrlValue.trim();
+        if (!word) return;
+        await addWord({
+            id: crypto.randomUUID(),
+            word,
+            url: url || '',
+            createdAt: new Date(),
+            updatedAt: new Date()
+        });
+        setAddOpen(false);
+        refresh();
     };
 
     const handleExport = async () => {
@@ -126,9 +154,43 @@ export function Vocabulary() {
 
     return (
         <>
-            <Button variant="light" size="sm" mb="md" onClick={handleExport}>
-                {t('app.vocabulary.export')}
-            </Button>
+            <Group mb="md" gap="xs">
+                <Button variant="light" size="sm" onClick={handleExport}>
+                    {t('app.vocabulary.export')}
+                </Button>
+                <Button variant="filled" size="sm" leftSection={<IconPlus size={16} />} onClick={handleOpenAdd}>
+                    {t('app.vocabulary.add.title')}
+                </Button>
+            </Group>
+            <Modal
+                opened={addOpen}
+                onClose={handleCloseAdd}
+                title={t('app.vocabulary.add.title')}
+                centered
+            >
+                <Stack gap="sm">
+                    <TextInput
+                        label={t('app.vocabulary.add.word_label')}
+                        placeholder={t('app.vocabulary.add.word_label')}
+                        value={addWordValue}
+                        onChange={(e) => setAddWordValue(e.currentTarget.value)}
+                    />
+                    <TextInput
+                        label={t('app.vocabulary.add.url_label')}
+                        placeholder={t('app.vocabulary.add.url_label')}
+                        value={addUrlValue}
+                        onChange={(e) => setAddUrlValue(e.currentTarget.value)}
+                    />
+                    <Group justify="flex-end">
+                        <Button variant="default" size="xs" onClick={handleCloseAdd}>
+                            {t('app.vocabulary.add.cancel')}
+                        </Button>
+                        <Button size="xs" onClick={handleConfirmAdd} disabled={!addWordValue.trim()}>
+                            {t('app.vocabulary.add.confirm')}
+                        </Button>
+                    </Group>
+                </Stack>
+            </Modal>
             <Modal
                 opened={confirmOpen}
                 onClose={handleCancelDelete}

@@ -67,6 +67,13 @@
                 "confirm_message": "確定要從列表中刪除此單字？",
                 "cancel": "取消",
                 "confirm": "刪除"
+            },
+            "add": {
+                "title": "新增單字",
+                "word_label": "單字",
+                "url_label": "網址",
+                "confirm": "新增",
+                "cancel": "取消"
             }
         },
         "common": {
