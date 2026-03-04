@@ -2,7 +2,10 @@
 
 ## Latest (Not yet packed)
 
+## 1.3.0
+
 - fix - "search" is not using correct i18n
+- feat - add "data" and "about" pages
 
 ## 1.2.3
 
